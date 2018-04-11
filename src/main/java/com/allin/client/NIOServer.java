@@ -9,7 +9,6 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
 
 public class NIOServer {
 
@@ -135,6 +134,12 @@ public class NIOServer {
         c = new CardPlayer();
         c.setUserId(444);
         list.add(c);
+        c = new CardPlayer();
+        c.setUserId(555);
+        list.add(c);
+        c = new CardPlayer();
+        c.setUserId(666);
+        list.add(c);
         list = deal(list, 0);
         list.forEach(CardPlayer -> System.out.println(CardPlayer.getUserId() + ":"
                 + CardPlayer.getFirstCard() + "-"
@@ -143,24 +148,7 @@ public class NIOServer {
         ));
     }
 
-    //随机指定数量的扑克
-    public static List<Integer> getCards(final int number) {
 
-
-        final Random r = new Random();
-        final List<Integer> list = new ArrayList<>();
-
-//        Collections.addAll(list, cardsBook);
-        int i;
-        while (list.size() < number) {
-            i = r.nextInt(53);
-            if (!list.contains(i)) {
-                list.add(i);
-            }
-        }
-
-        return list;
-    }
 
     /**
      * 发牌
@@ -169,7 +157,7 @@ public class NIOServer {
      * @param
      * @throws IOException
      */
-    public static List<CardPlayer> deal(final List<CardPlayer> peopleList, final int CardsType) {
+    public static List<CardPlayer> deal(List<CardPlayer> peopleList, final int CardsType) {
 
         //初始化发牌数量
         int cardNo = 3;
@@ -179,7 +167,7 @@ public class NIOServer {
         //获取总牌数
         final int number = peopleList.size() * cardNo;
         //获取牌坐标
-        final List<Integer> indexList = getCards(number);
+        final List<Integer> indexList = CardTools.getCards(number);
 
         int i = 0;
         for (int j = 0; j < peopleList.size(); j++) {
@@ -190,15 +178,14 @@ public class NIOServer {
             peopleList.get(j).setThirdCard(cardsBook[indexList.get(i)]);
             ++i;
         }
-        peopleList.stream().forEach(p -> {
 
-        });
-
-
+        //比较牌的大小
+        peopleList = CardTools.compareBigNumber(peopleList);
         return peopleList;
 
 
     }
+
 
     /**
      * 向客户端发送数据

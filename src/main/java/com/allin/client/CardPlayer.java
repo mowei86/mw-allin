@@ -2,6 +2,7 @@ package com.allin.client;
 
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -15,8 +16,14 @@ public class CardPlayer {
     private int firstCard;
     private int secondCard;
     private int thirdCard;
-    private int fourthCard;
-    private int fifthCard;
+
+    //战斗力
+    private int fightingCapacity;
+
+    //豹子5//顺金4//金花3//顺子2//对子1//单牌0
+    @Builder.Default
+    private int cardStyle = 0;
+
 
 
 }
