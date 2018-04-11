@@ -6,12 +6,30 @@ import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.nio.channels.*;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
 
 public class NIOServer {
 
     public static final int PORT = 4444;
     private static final int SIZE = 256;
+    private static final Integer[] cardsBook = {
+            24, 23, 22, 21
+            , 34, 33, 32, 31
+            , 44, 43, 42, 41
+            , 54, 53, 52, 51
+            , 64, 63, 62, 61
+            , 74, 73, 72, 71
+            , 84, 83, 82, 81
+            , 94, 93, 92, 91
+            , 104, 103, 102, 101
+            , 114, 113, 112, 111
+            , 124, 123, 122, 121
+            , 134, 133, 132, 131
+            , 144, 143, 142, 141
+    };
     public String IP = "127.0.0.1";// 10.50.200.120
     // 对于以字符方式读取和处理的数据必须要进行字符集编码和解码
     String encoding = System.getProperty("file.encoding");
@@ -101,11 +119,85 @@ public class NIOServer {
     }
 
     public static void main(final String[] args) {
-        try {
-            new NIOServer();
-        } catch (final IOException e) {
-            e.printStackTrace();
+
+//        final List<Integer> list = getCards(12);
+//        list.forEach(System.out::println);
+        List<CardPlayer> list = new ArrayList<>();
+        CardPlayer c = new CardPlayer();
+        c.setUserId(111);
+        list.add(c);
+        c = new CardPlayer();
+        c.setUserId(222);
+        list.add(c);
+        c = new CardPlayer();
+        c.setUserId(333);
+        list.add(c);
+        c = new CardPlayer();
+        c.setUserId(444);
+        list.add(c);
+        list = deal(list, 0);
+        list.forEach(CardPlayer -> System.out.println(CardPlayer.getUserId() + ":"
+                + CardPlayer.getFirstCard() + "-"
+                + CardPlayer.getSecondCard() + "-"
+                + CardPlayer.getThirdCard() + ". "
+        ));
+    }
+
+    //随机指定数量的扑克
+    public static List<Integer> getCards(final int number) {
+
+
+        final Random r = new Random();
+        final List<Integer> list = new ArrayList<>();
+
+//        Collections.addAll(list, cardsBook);
+        int i;
+        while (list.size() < number) {
+            i = r.nextInt(53);
+            if (!list.contains(i)) {
+                list.add(i);
+            }
         }
+
+        return list;
+    }
+
+    /**
+     * 发牌
+     *
+     * @param
+     * @param
+     * @throws IOException
+     */
+    public static List<CardPlayer> deal(final List<CardPlayer> peopleList, final int CardsType) {
+
+        //初始化发牌数量
+        int cardNo = 3;
+        if (CardsType == 0) {
+            cardNo = 3;
+        }
+        //获取总牌数
+        final int number = peopleList.size() * cardNo;
+        //获取牌坐标
+        final List<Integer> indexList = getCards(number);
+
+        int i = 0;
+        for (int j = 0; j < peopleList.size(); j++) {
+            peopleList.get(j).setFirstCard(cardsBook[indexList.get(i)]);
+            ++i;
+            peopleList.get(j).setSecondCard(cardsBook[indexList.get(i)]);
+            ++i;
+            peopleList.get(j).setThirdCard(cardsBook[indexList.get(i)]);
+            ++i;
+        }
+        peopleList.stream().forEach(p -> {
+
+        });
+
+
+        return peopleList;
+
+
     }
 
     /**
@@ -129,6 +221,15 @@ public class NIOServer {
         }
     }
 
+
+    //    public static void main(final String[] args) {
+//        try {
+//            new NIOServer();
+//        } catch (final IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
+
     /**
      * 向指定频道发送数据
      *
@@ -140,6 +241,14 @@ public class NIOServer {
         channel.write(this.charse.encode(data));
         //channel.socket().shutdownOutput();
     }
+
+    //随机获取一涨牌
+//    public int getACard() {
+//        //产生0-(arr.length-1)的整数值,也是数组的索引
+//        final int index = (int) (Math.random() * cardsBook.length);
+//        final int rand = cardsBook[index];
+//        return rand;
+//    }
 
     /**
      * 接受来自客户端数据
@@ -166,5 +275,6 @@ public class NIOServer {
         buffer.clear();
         return content;
     }
+
 
 }
