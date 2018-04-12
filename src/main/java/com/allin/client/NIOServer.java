@@ -145,6 +145,8 @@ public class NIOServer {
                 + CardPlayer.getFirstCard() + "-"
                 + CardPlayer.getSecondCard() + "-"
                 + CardPlayer.getThirdCard() + ". "
+                + CardPlayer.getCardStyle() + "--"
+                + CardPlayer.getFightingCapacity()
         ));
     }
 

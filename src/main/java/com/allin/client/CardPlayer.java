@@ -18,7 +18,7 @@ public class CardPlayer {
     private int thirdCard;
 
     //战斗力
-    private int fightingCapacity;
+    private int fightingCapacity = 0;
 
     //豹子5//顺金4//金花3//顺子2//对子1//单牌0
     @Builder.Default
