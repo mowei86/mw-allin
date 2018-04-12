@@ -140,6 +140,15 @@ public class NIOServer {
         c = new CardPlayer();
         c.setUserId(666);
         list.add(c);
+        c = new CardPlayer();
+        c.setUserId(777);
+        list.add(c);
+        c = new CardPlayer();
+        c.setUserId(888);
+        list.add(c);
+        c = new CardPlayer();
+        c.setUserId(999);
+        list.add(c);
         list = deal(list, 0);
         list.forEach(CardPlayer -> System.out.println(CardPlayer.getUserId() + ":"
                 + CardPlayer.getFirstCard() + "-"

@@ -29,13 +29,13 @@ public class CardTools {
 
         //获取牌类型
         peopleList = getCardStyle(peopleList);
-        //5.豹子+9000
+        //5.豹子+50000
 
-        //4.顺金+8000
+        //4.顺金+20000
 
-        //3.金花+7000 都是金花 找最大张单牌
+        //3.金花+15000 都是金花 找最大张单牌
 
-        //2.顺子+6000
+        //2.顺子+10000
 
         //1.对子+5000
 
@@ -114,7 +114,7 @@ public class CardTools {
             //判断顺子
             if (aCard[0] + 1 == aCard[1] && aCard[1] + 1 == aCard[2]) {
                 p.setCardStyle(2);
-                p.setFightingCapacity(p.getFightingCapacity() + 6000);
+                p.setFightingCapacity(p.getFightingCapacity() + 10000);
             }
 
             //是否金花
@@ -126,17 +126,17 @@ public class CardTools {
                 //是否顺金
                 if (p.getCardStyle() == 2) {
                     p.setCardStyle(4);
-                    p.setFightingCapacity(p.getFightingCapacity() + 8000);
+                    p.setFightingCapacity(p.getFightingCapacity() + 20000);
                 } else {
                     p.setCardStyle(3);
-                    p.setFightingCapacity(p.getFightingCapacity() + 7000);
+                    p.setFightingCapacity(p.getFightingCapacity() + 15000);
                 }
             }
 
             //是否豹子
             if (oneTen == twoTen && twoTen == threeTen) {
                 p.setCardStyle(5);
-                p.setFightingCapacity(p.getFightingCapacity() + 9000);
+                p.setFightingCapacity(p.getFightingCapacity() + 50000);
             }
 
 
